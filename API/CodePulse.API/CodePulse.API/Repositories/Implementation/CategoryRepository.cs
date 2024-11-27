@@ -31,7 +31,7 @@ namespace CodePulse.API.Repositories.Implementation
             }
 
             dbContext.Categories.Remove(existingCategory);
-await             dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
             return existingCategory;
 
         }
