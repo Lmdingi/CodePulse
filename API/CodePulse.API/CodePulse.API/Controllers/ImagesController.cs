@@ -17,37 +17,61 @@ namespace CodePulse.API.Controllers
             this.imageRepository = imageRepository;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UploadImage([FromForm] IFormFile file, [FromForm] string fileName, [FromForm] string title)
+        [HttpGet]
+        public async Task<IActionResult> GetAllImages()
         {
-            ValidateFileUpload(file);
+            var images = await imageRepository.GetAll();
 
-            if (ModelState.IsValid)
+            var response = new List<BlogImageDto>();
+
+            foreach (var blogImage in images)
             {
-                var blogImage = new BlogImage
-                {
-                    FileExtention = Path.GetExtension(file.FileName).ToLower(),
-                    FileName = fileName,
-                    Title = title,
-                    DateCreated = DateTime.Now,
-                };
-
-                blogImage = await imageRepository.Upload(file, blogImage);
-
-                var response = new BlogImageDto
+                response.Add(new BlogImageDto
                 {
                     Id = blogImage.Id,
                     Title = blogImage.Title,
                     DateCreated = blogImage.DateCreated,
                     FileExtention = blogImage.FileExtention,
-                    FileName = fileName,
+                    FileName = blogImage.FileName,
                     Url = blogImage.Url,
-                };
-
-                return Ok(blogImage);
+                });
             }
-            return BadRequest(ModelState);
+
+            return Ok(response);
         }
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> UploadImage([FromForm] IFormFile file, [FromForm] string fileName, [FromForm] string title)
+        //{
+        //    ValidateFileUpload(file);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var blogImage = new BlogImage
+        //        {
+        //            FileExtention = Path.GetExtension(file.FileName).ToLower(),
+        //            FileName = fileName,
+        //            Title = title,
+        //            DateCreated = DateTime.Now,
+        //        };
+
+        //        blogImage = await imageRepository.Upload(file, blogImage);
+
+        //        var response = new BlogImageDto
+        //        {
+        //            Id = blogImage.Id,
+        //            Title = blogImage.Title,
+        //            DateCreated = blogImage.DateCreated,
+        //            FileExtention = blogImage.FileExtention,
+        //            FileName = fileName,
+        //            Url = blogImage.Url,
+        //        };
+
+        //        return Ok(blogImage);
+        //    }
+        //    return BadRequest(ModelState);
+        //}
 
         private void ValidateFileUpload(IFormFile file)
         {
