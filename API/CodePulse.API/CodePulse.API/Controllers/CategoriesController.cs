@@ -42,9 +42,9 @@ namespace CodePulse.API.Controllers
         }
 
         [HttpGet] //https://localhost:7176/api/Categories
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories([FromQuery] string? query)
         {
-            var categories = await categoryRepository.GetAllAsync();
+            var categories = await categoryRepository.GetAllAsync(query);
 
             var response = new List<CategoryDto>();
 
