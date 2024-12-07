@@ -16,8 +16,36 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Name</th>
-                    <th>Url Handle</th>
+                    <th>
+                        Name
+                        <span>
+                            <span>
+                                <button type="button" class="btn btn-light" (click)="sort('name', 'asc')">
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                            </span>
+                            <span>
+                                <button type="button" class="btn btn-light" (click)="sort('name', 'desc')">
+                                    <i class="bi bi-arrow-down"></i>
+                                </button>
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        Url Handle
+                        <span>
+                            <span>
+                                <button type="button" class="btn btn-light" (click)="sort('url', 'asc')">
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                            </span>
+                            <span>
+                                <button type="button" class="btn btn-light" (click)="sort('url', 'desc')">
+                                    <i class="bi bi-arrow-down"></i>
+                                </button>
+                            </span>
+                        </span>
+                    </th>
                 </tr>
             </thead>
 
@@ -35,6 +63,18 @@
             </tbody>
 
         </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" (click)="getPrevPage()">Previous</a></li>
+
+                <li *ngFor="let item of list; let index = index" class="page-item">
+                    <a class="page-link" (click)="getPage(index + 1)">{{index + 1}}</a>
+                </li>
+
+                <li class="page-item"><a class="page-link" (click)="getNexPage()">Next</a></li>
+            </ul>
+        </nav>
 
     </ng-container>
 </div>
